@@ -1,0 +1,75 @@
+name: DevOps + Vue 3 JS CI
+
+on:
+    push: #on-push trigger
+        branches:
+            - main
+jobs:
+    #Job 1: Lint, Audit and Test
+    Lint-and-Test: 
+        name: Lint, Audit & Test
+        runs-on: ubuntu-latest
+
+        steps:
+
+            # Step 1: Checkout Repo used to pull github code -> to ubuntu server
+            - name: Checkout Code
+              uses: actions/checkout@v6
+
+            # Step 2: Setup Node JS
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: 'lts/*' # Latest Node.js version
+            
+            # Step 3: Install Dependencies
+            - name: Install Dependencies
+              run: npm ci #used for pipeline -> exact same to same package install 
+
+            # Step 4: Code Quality Check
+            - name: Run Linter (Code Quality)
+              run: npm run lint
+
+            # Step 5: Security Audit (Check Vulnerabilities)
+            - name: Security Audit (Check Vulnerabilities)
+              run: npm audit --audit-level=high
+           
+            # Step 6: Unit Tests
+            - name: Run Unit Tests
+              run: npm run test:unit
+
+    # Job 2: Build Application
+    Build:
+        name: Build Vue JS App
+        needs: Lint-and-Test
+        runs-on: ubuntu-latest
+
+        steps:
+
+            # Step 1: Github -> Ubuntu Code
+            - name: Checkout Code
+              uses: actions/checkout@v6
+            
+            # Step 2: Setup Node JS
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: 'lts/*' 
+            
+            # Step 3: Install Dependencies
+            - name: Install Dependencies
+              run: npm ci 
+            
+            # Step 4: Build Vue JS Project
+            - name: Build Vue JS Project
+              run: npm run build
+            
+            # Step 5: Upload Build Artifact 
+            - name: Upload Build Artifact
+              uses: actions/upload-artifact@v4
+              with: 
+                name: deploy-files
+                path: dist/
+
+
+

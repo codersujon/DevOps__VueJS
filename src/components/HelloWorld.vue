@@ -16,7 +16,7 @@ const count = ref(0)
     </div>
     <div>
       <h1>Cloud Experts</h1>
-      <p>Welcome to <code>cloudexperts.net</code> and save to test <code>HMR</code></p>
+      <p>Welcome to <code>cloudexperts.net</code></p>
     </div>
     <button type="button" class="counter" @click="count++">
       Count is {{ count }}
