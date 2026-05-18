@@ -28,7 +28,7 @@ jobs:
 
             # Step 4: Code Quality Check
             - name: Run Linter (Code Quality)
-              run: npm run lint || true
+              run: npm run lint
 
             # Step 5: Security Audit (Check Vulnerabilities)
             - name: Security Audit (Check Vulnerabilities)
@@ -70,6 +70,5 @@ jobs:
               with: 
                 name: deploy-files
                 path: dist/
-
-
+...
 
