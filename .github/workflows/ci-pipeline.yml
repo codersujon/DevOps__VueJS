@@ -69,7 +69,7 @@ jobs:
               uses: actions/upload-artifact@v5
               with: 
                 name: deploy-files
-                path: dist/
+                path: dist
 
     # Job 3: Build Docker Image
     Docker-Image-Build:
@@ -87,7 +87,7 @@ jobs:
             - name: Download Artifact
               uses: actions/download-artifact@v5
               with:
-                name: Vue JS App
+                name: deploy-files
                 path: dist
             
             # Step 3: Check Dist Folder
